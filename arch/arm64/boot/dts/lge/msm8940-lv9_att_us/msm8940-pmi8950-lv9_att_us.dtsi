@@ -1,0 +1,50 @@
+/*
+ * Copyright (c) 2016, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+#include "msm8940-lv9_att_us-pinctrl.dtsi"
+#include "msm8940-pmi8950-lv9_att_us-camera.dtsi"
+#include "msm8940-lv9_att_us-panel.dtsi"
+#include "msm8940-lv9_att_us-sound.dtsi"
+#include "msm8940-lv9_att_us-misc.dtsi"
+#include "msm8940-pmi8950-lv9_att_us-pm.dtsi"
+#include "msm8940-lv9_att_us-touch.dtsi"
+#include "msm8940-pmi8950-lv9_att_us-usb.dtsi"
+#include "msm8940-lv9_att_us-nfc.dtsi"
+#include "msm8940-lv9_att_us-fingerprint.dtsi"
+
+/ {
+	reserved-memory {
+		/delete-node/ crash_fb_mem@AFB00000;
+		crash_fb_mem: crash_fb_mem@AF700000 {
+			linux,contiguous-region;
+			reg = <0 0xAF700000 0 0x800000>;
+			label = "crash_fb_mem";
+		};
+		secure_mem: secure_region@0 {
+			status = "disabled";
+		};
+	};
+};
+
+&soc {
+	crash_fb {
+		compatible = "crash_fb";
+		mem-addr = <0xAF700000>;
+		mem-size = <0x800000>;
+	};
+	qcom,ion {
+		qcom,ion-heap@8 { /* CP_MM HEAP  */
+			status = "disabled";
+		};
+	};
+};
